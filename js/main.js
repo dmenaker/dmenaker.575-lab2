@@ -3,7 +3,7 @@
     //create a list of attributes from the csv file headers
     var attrArray = ["Select Age Range", "Age 0-9", "Age 10-19", "Age 20-29", "Age 30-39", "Age 40-49", "Age 50-59", "Age 60-69", "Age 70-79", "Age 80 Plus"],
 
-        //set the initial value of the variable currently being vizualized
+        //set the initial value of the variable currently being visualized
         expressed = attrArray[0];
     
     //set the dimensions for the chart frame
