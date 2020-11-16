@@ -2,7 +2,7 @@
     
     //create a list of attributes from the csv file headers
     var attrArray = ["Select Age Range", "Age 0-9", "Age 10-19", "Age 20-29", "Age 30-39", "Age 40-49", "Age 50-59", "Age 60-69", "Age 70-79", "Age 80 Plus"],
-
+        
         //set the initial value of the variable currently being visualized
         expressed = attrArray[0];
     
@@ -111,9 +111,12 @@
     
     //function to join csv data to geojson attributes
     function joinData(NJCounties, csvData){
+        
         for (var i=0; i < csvData.length; i++) {
+            
                 //the current county
                 var csvCounty = csvData[i];
+            
                 //the csv primary key
                 var csvKey = csvCounty.GEOID;
 
@@ -122,6 +125,7 @@
                     
                     //the current enumeration unit geojson properties
                     var geojsonProps = NJCounties[a].properties;
+                    
                     //the geojson primary key
                     var geojsonKey = geojsonProps.GEOID;
 
@@ -130,8 +134,10 @@
 
                         //assign all attributes and values
                         attrArray.forEach(function(attr){
+                            
                             //get csv attribute value
                             var val = parseFloat(csvCounty[attr]);
+                            
                             //assign attribute and value to geojson properties
                             geojsonProps[attr] = val;
                         });
@@ -144,6 +150,7 @@
     
     //function to create color scale generator
     function makeColorScale(data){
+        
         var colorClasses = ['#ccece6','#99d8c9','#66c2a4','#41ae76','#238b45','#005824'];
 
         //create color scale generator
@@ -152,6 +159,7 @@
 
         //build array of all values of the expressed attribute
         var domainArray = [];
+        
         for (var i=0; i<data.length; i++){
             var val = parseFloat(data[i][expressed]);
             domainArray.push(val);
@@ -159,10 +167,12 @@
 
         //cluster data using ckmeans clustering algorithm to create natural breaks
         var clusters = ss.ckmeans(domainArray, 5);
+        
         //reset domain array to cluster minimums
         domainArray = clusters.map(function(d){
             return d3.min(d);
         });
+        
         //remove first value from domain array to create class breakpoints
         domainArray.shift();
 
@@ -322,7 +332,6 @@
         
         //re-sort, resize, and recolor bars
         var bars = d3.selectAll(".bar")
-            //re-sort bars
             .sort(function(a, b){
                 return b[expressed] - a[expressed];
             })
@@ -369,7 +378,7 @@
         setLabel(props);
     };
     
-     //function to reset the element style on mouseout
+    //function to reset the element style on mouseout
     function dehighlight(props){
         var selected = d3.selectAll("." + props.GEOID)
             .style("stroke", function(){
